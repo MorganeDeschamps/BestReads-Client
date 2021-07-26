@@ -43,7 +43,7 @@ export const notMain = new URITemplate(`https://openlibrary.org/search/{subSearc
 
 
 
-function testUrl(searchOptions) {
+function buildUrl(searchOptions) {
     const {searchType, subSearch, searchTerms} = searchOptions;
 
     let searchUrl = searchType.expand({
@@ -62,7 +62,7 @@ const urlbase = axios.create({
 
 export function searchAny(searchProps) {
     
-    return axios.get(testUrl(searchProps))
+    return axios.get(buildUrl(searchProps))
     .then(res => {return res.data.docs})
     .catch(err => console.log(err))
     
@@ -76,4 +76,23 @@ export function accessAuthorWorks(key) {
     .then(res => console.log(res.data))
     .catch(err => console.log(err))
 
+}
+
+
+export function getAuthorDetails(key) {
+    const url = `/authors/${key}.json`
+
+    return urlbase.get(url)
+    .then(result => {return result.data})
+    .catch(err => console.log(err))
+}
+
+
+
+export function getWorks(key) {
+    const url = `/authors/${key}/works.json`
+
+    return urlbase.get(url)
+    .then(result => {return result.data})
+    .catch(err => console.log(err))
 }

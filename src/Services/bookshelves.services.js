@@ -20,13 +20,13 @@ function successStatus(res) {
 
 // creates a basic url for every request in this file
 const publicService = axios.create({
-	baseURL: `${process.env.REACT_APP_SERVER_URL}/public-bookshelf`,
+	baseURL: `${process.env.REACT_APP_SERVER_URL}/public`,
     withCredentials: true
 });
 
 
 const privateService = axios.create({
-	baseURL: `${process.env.REACT_APP_SERVER_URL}/private-bookshelf`,
+	baseURL: `${process.env.REACT_APP_SERVER_URL}/private`,
     withCredentials: true
 });
 
@@ -43,6 +43,7 @@ export function getPublicBookshelf(bookshelfId) {
 
 
 export function newPublicBookshelf(form) {
+	//form needs {name, books, publicBookshelf}
 	return publicService
 		.post(`/create`, form)
 		.then(successStatus)
@@ -50,13 +51,21 @@ export function newPublicBookshelf(form) {
 }
 
 export function editPublicBookshelf(bookshelfId, form) {
+	//form needs {bookshelfId, name, books}
 	return publicService
 		.put(`/${bookshelfId}/edit`, form)
 		.then(successStatus)
 		.catch(internalServerError);
 }
 
+export function moveBookPublic(form) {
+	//form needs {bookshelfId, shelfFrom, shelfTo, booksFrom, booksTo}
+	return publicService
+		.put(`/moveBook`, form)
+		.then(successStatus)
+		.catch(internalServerError);
 
+}
 
 
 
@@ -72,6 +81,7 @@ export function getPrivateBookshelf(bookshelfId) {
 
 
 export function newPrivateBookshelf(form) {
+	//form needs {name, books, publicBookshelf}
 	return privateService
 		.post(`/create`, form)
 		.then(successStatus)
@@ -79,12 +89,22 @@ export function newPrivateBookshelf(form) {
 }
 
 export function editPrivateBookshelf(bookshelfId, form) {
+	//form needs {bookshelfId, name, books}
 	return privateService
 		.put(`/${bookshelfId}/edit`, form)
 		.then(successStatus)
 		.catch(internalServerError);
 }
 
+
+export function moveBookPrivate(form) {
+	//form needs {bookshelfId, shelfFrom, shelfTo, booksFrom, booksTo}
+	return privateService
+		.put(`/moveBook`, form)
+		.then(successStatus)
+		.catch(internalServerError);
+
+}
 
 
 
